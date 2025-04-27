@@ -8,16 +8,7 @@ RUN apt-get update -qq -y && \
         libgtk-4-1 \
         libnss3 \
         xdg-utils \
-        wget && \
-    wget -q -O chrome-linux64.zip https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.204/linux64/chrome-linux64.zip && \
-    unzip chrome-linux64.zip && \
-    rm chrome-linux64.zip && \
-    mv chrome-linux64 /opt/chrome/ && \
-    ln -s /opt/chrome/chrome /usr/local/bin/ && \
-    wget -q -O chromedriver-linux64.zip https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.204/linux64/chromedriver-linux64.zip && \
-    unzip -j chromedriver-linux64.zip chromedriver-linux64/chromedriver && \
-    rm chromedriver-linux64.zip && \
-    mv chromedriver /usr/local/bin/
+        wget
 
 # Don't run as root
 USER node
@@ -37,9 +28,6 @@ ENV ACTUAL_SYNC_ID=""
 # allow self-signed SSL certs
 ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 
-# needed for Selenium+chromedriver
-ENV CHROMEDRIVER_SKIP_DOWNLOAD=true
-
 # optional, for encrypted files
 ENV ACTUAL_FILE_PASSWORD=""
 
@@ -49,17 +37,17 @@ ENV ACTUAL_CACHE_DIR="./cache"
 # optional, name of the payee for added interest transactions
 ENV INTEREST_PAYEE_NAME="Loan Interest"
 
-# optional, name of the payee for added interest transactions
+# optional, name of the payee for added investment tracking
 ENV INVESTMENT_PAYEE_NAME="Investment"
-# optional, name of the cateogry group for added investment tracking transactions
+# optional, name of the category group for added investment tracking
 ENV INVESTMENT_CATEGORY_GROUP_NAME="Income"
-# optional, name of the category for added investment tracking transactions
+# optional, name of the category for added investment tracking
 ENV INVESTMENT_CATEGORY_NAME="Investment"
 
 # optional, for logging into SimpleFIN
 ENV SIMPLEFIN_CREDENTIALS=""
 
-# optional, for retrieving Bitcoin Price (these default to Kraken USD)
+# optional, for retrieving Bitcoin Price
 ENV BITCOIN_PRICE_URL="https://api.kraken.com/0/public/Ticker?pair=xbtusd"
 ENV BITCOIN_PRICE_JSON_PATH="result.XXBTZUSD.c[0]"
 ENV BITCOIN_PAYEE_NAME="Bitcoin Price Change"
