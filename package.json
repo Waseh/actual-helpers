@@ -5,7 +5,7 @@
     "dotenv": "^16.4.5",
     "readline-sync": "^1.4.10",
     "puppeteer": "^21.3.8",
-    "puppeteer-extra": "^3.4.4",
-    "puppeteer-extra-plugin-stealth": "^2.11.4"
+    "puppeteer-extra": "^3.3.4",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }
