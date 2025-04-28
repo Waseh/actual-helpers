@@ -2,10 +2,8 @@ name: Get latest Actual release
 
 on:
   schedule:
-    - cron:  '0 23 * * *'
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    - cron: '0 23 * * *' # Runs daily at 23:00 UTC
+  workflow_dispatch:      # Allow manual triggering
 
 jobs:
   get-version:
@@ -20,17 +18,22 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
 
-      - name: Fetch release version
+      - name: Fetch latest release version
         run: |
           curl -sL https://api.github.com/repos/actualbudget/actual/releases/latest | \
           jq -r ".tag_name" > actual-latest.txt
 
       - name: Check for modified files
         id: git-check
-        run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "modified=false" >> $GITHUB_ENV
+          else
+            echo "modified=true" >> $GITHUB_ENV
+          fi
 
       - name: Commit latest release version
-        if: steps.git-check.outputs.modified == 'true'
+        if: env.modified == 'true'
         run: |
           git config --global user.name 'Waseh'
           git config --global user.email '19177699+Waseh@users.noreply.github.com'
